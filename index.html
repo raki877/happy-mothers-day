@@ -319,42 +319,42 @@ function createFloatingEmoji() {
 }
 
 // Play funny sound effect
-let prankAudio;
+  let prankAudio;
 
-function submitResult() {
-  var reg = document.getElementById('regNum').value.trim();
-  var combo = document.getElementById('combo').value;
+  function submitResult() {
+    var reg = document.getElementById('regNum').value.trim();
+    var combo = document.getElementById('combo').value;
 
-  if (!reg || reg.length < 11) { 
-    alert('Enter valid Register Number'); 
-    return; 
-  }
-  if (!combo) { 
-    alert('Select Combination'); 
-    return; 
-  }
+    if (!reg || reg.length < 11) { 
+      alert('Enter valid Register Number'); 
+      return; 
+    }
+    if (!combo) { 
+      alert('Select Combination'); 
+      return; 
+    }
 
   // 🔊 Create + play immediately on click (mobile requires this)
-  prankAudio = new Audio('https://github.com/karresult/result.gov.in/blob/main/faaa.mp3');
-  prankAudio.volume = 0.5;
+    prankAudio = new Audio('https://github.com/karresult/result.gov.in/blob/main/faaa.mp3');
+    prankAudio.volume = 0.5;
 
   // Play instantly (this unlocks audio on mobile)
-  prankAudio.play().catch(() => {});
+    prankAudio.play().catch(() => {});
 
   // ⏳ Continue your prank delay
-  document.getElementById('loadingOverlay').classList.add('show');
+    document.getElementById('loadingOverlay').classList.add('show');
 
-  setTimeout(function() {
-    document.getElementById('loadingOverlay').classList.remove('show');
-    document.getElementById('prankModal').classList.add('show');
+    setTimeout(function() {
+      document.getElementById('loadingOverlay').classList.remove('show');
+      document.getElementById('prankModal').classList.add('show');
 
     // Restart sound at prank moment
-    prankAudio.currentTime = 0;
-    prankAudio.play().catch(err => console.log(err));
+      prankAudio.currentTime = 0;
+      prankAudio.play().catch(err => console.log(err));
 
-  }, 5000);
-}
-}
+    }, 5000);  
+  }
+  }
 
 // Initialize particles when page loads
 window.addEventListener('load', initializeParticles);
