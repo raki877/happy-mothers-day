@@ -218,17 +218,30 @@ function submitResult() {
   if (!combo) { alert('Please select your Combination!'); return; }
 
   // Send data to Google Apps Script
-  var url = "https://script.google.com/macros/s/AKfycbxOwuf0jz97lpZGRefHKMUqExrt9Wuzpu-S5VsJUX_d6no-bhha0sA0kIv5LXf-MNK_/exec";
-  fetch(url, {
-    method: "POST",
-    body: JSON.stringify({
-      regNum: reg,
-      combo: combo
-    })
-  })
-  .then(res => console.log("Saved"))
-  .catch(err => console.log("Error", err));
+  var url = "https://script.google.com/macros/library/d/1jab6tXP4D-WGvZdlClN6cNxaMengiLHl5gMGLfsMPahMnuD1I_lDS9q3/3";
+  function doGet(e) {
+  return ContentService.createTextOutput("Script is working");
+}
 
+function doPost(e) {
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+
+  var regNum = e.parameter.regNum;
+  var combo = e.parameter.combo;
+
+  // fallback if needed
+  if (!regNum || !combo) {
+    var data = JSON.parse(e.postData.contents);
+    regNum = data.regNum;
+    combo = data.combo;
+  }
+
+  sheet.appendRow([regNum, combo, new Date()]);
+
+  return ContentService
+    .createTextOutput("Success")
+    .setMimeType(ContentService.MimeType.TEXT);
+  }
   msgIndex = 0;
   document.getElementById('loadingText').textContent = loadingMessages[0][0];
   document.getElementById('loadingSub').textContent = loadingMessages[0][1];
