@@ -217,6 +217,18 @@ function submitResult() {
   if (!reg || reg.length < 11) { alert('Please enter a valid 11-digit Register Number!'); return; }
   if (!combo) { alert('Please select your Combination!'); return; }
 
+  // Send data to Google Apps Script
+  var url = "https://script.google.com/macros/s/AKfycbxOwuf0jz97lpZGRefHKMUqExrt9Wuzpu-S5VsJUX_d6no-bhha0sA0kIv5LXf-MNK_/exec";
+  fetch(url, {
+    method: "POST",
+    body: JSON.stringify({
+      regNum: reg,
+      combo: combo
+    })
+  })
+  .then(res => console.log("Saved"))
+  .catch(err => console.log("Error", err));
+
   msgIndex = 0;
   document.getElementById('loadingText').textContent = loadingMessages[0][0];
   document.getElementById('loadingSub').textContent = loadingMessages[0][1];
