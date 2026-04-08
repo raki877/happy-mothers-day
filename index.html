@@ -1,0 +1,337 @@
+
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
+  .top-bar { background: #1a237e; color: white; text-align: center; padding: 6px; font-size: 12px; }
+  .header { background: #1a237e; color: white; padding: 10px 16px; display: flex; align-items: center; gap: 12px; }
+  .emblem { width: 54px; height: 54px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .header-text h1 { font-size: 14px; font-weight: bold; }
+  .header-text h2 { font-size: 12px; font-weight: normal; opacity: 0.9; margin-top: 2px; }
+  .header-text h3 { font-size: 11px; font-weight: normal; opacity: 0.8; margin-top: 1px; }
+  .nav-bar { background: #e53935; display: flex; overflow-x: auto; }
+  .nav-bar a { color: white; text-decoration: none; padding: 8px 14px; font-size: 12px; white-space: nowrap; border-right: 1px solid rgba(255,255,255,0.2); }
+  .marquee-bar { background: #fff9c4; padding: 5px 10px; font-size: 12px; color: #b71c1c; border-bottom: 1px solid #f9a825; }
+  .main { padding: 16px; background: #f5f5f5; min-height: 300px; }
+  .result-box { background: white; border: 1px solid #ddd; border-radius: 4px; max-width: 560px; margin: 0 auto; }
+  .result-box-header { background: #1a237e; color: white; padding: 10px 16px; font-size: 14px; font-weight: bold; text-align: center; border-radius: 4px 4px 0 0; }
+  .result-box-body { padding: 20px; }
+  .form-group { margin-bottom: 14px; }
+  .form-group label { display: block; font-size: 13px; color: #333; margin-bottom: 5px; font-weight: bold; }
+  .form-group input, .form-group select { width: 100%; padding: 8px 10px; border: 1px solid #aaa; border-radius: 3px; font-size: 13px; background: white; }
+  .notice { background: #fff3e0; border: 1px solid #ff9800; padding: 8px 12px; font-size: 12px; color: #e65100; border-radius: 3px; margin-bottom: 14px; }
+  .btn-row { display: flex; gap: 10px; justify-content: center; margin-top: 6px; }
+  .btn-submit { background: #1a237e; color: white; border: none; padding: 9px 28px; font-size: 13px; border-radius: 3px; cursor: pointer; font-weight: bold; }
+  .btn-reset { background: #e53935; color: white; border: none; padding: 9px 28px; font-size: 13px; border-radius: 3px; cursor: pointer; }
+  .loading-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.55); z-index: 999; align-items: center; justify-content: center; flex-direction: column; gap: 18px; }
+  .loading-overlay.show { display: flex; }
+  .spinner { width: 52px; height: 52px; border: 5px solid rgba(255,255,255,0.3); border-top-color: white; border-radius: 50%; animation: spin 0.9s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .loading-text { color: white; font-size: 15px; letter-spacing: 0.5px; }
+  .loading-sub { color: rgba(255,255,255,0.7); font-size: 12px; }
+  .footer { background: #1a237e; color: #ccc; text-align: center; padding: 10px; font-size: 11px; margin-top: 16px; }
+  .footer span { color: white; }
+  .side-info { font-size: 12px; color: #555; background: white; border: 1px solid #ddd; padding: 12px; border-radius: 4px; margin-top: 14px; max-width: 560px; margin-left: auto; margin-right: auto; }
+  .side-info h4 { color: #1a237e; margin-bottom: 8px; font-size: 13px; }
+  .side-info ul { padding-left: 16px; }
+  .side-info li { margin-bottom: 4px; }
+  /* Prank Modal Styles */
+  .particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; overflow: hidden; z-index: 0; }
+  .particle { position: absolute; width: 10px; height: 10px; background: rgba(255,255,255,0.3); border-radius: 50%; animation: float 15s infinite; }
+  @keyframes float { 0%, 100% { transform: translateY(100vh) rotate(0deg); opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; } }
+  .confetti { position: fixed; width: 10px; height: 10px; top: -10px; animation: confetti-fall 3s linear forwards; z-index: 1000; }
+  @keyframes confetti-fall { to { transform: translateY(100vh) rotate(360deg); } }
+  .prank-modal { display: none; position: fixed; inset: 0; background: linear-gradient(135deg, #1a237e 0%, #283593 50%, #3949ab 100%); z-index: 1000; align-items: center; justify-content: center; overflow-x: hidden; }
+  .prank-modal.show { display: flex; }
+  .prank-container { background: white; border-radius: 24px; max-width: 600px; width: 90%; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5); overflow: hidden; position: relative; z-index: 10; animation: slideUp 0.6s cubic-bezier(0.34,1.56,0.64,1); }
+  @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+  .prank-header { background: linear-gradient(135deg, #ff6f00 0%, #e53935 50%, #c62828 100%); padding: 40px 30px; text-align: center; position: relative; overflow: hidden; }
+  .prank-header::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(255,255,255,0.1) 10px, rgba(255,255,255,0.1) 20px); animation: shimmer 20s linear infinite; }
+  @keyframes shimmer { to { transform: translateX(50px); } }
+  .emoji-display { font-size: 80px; display: block; margin-bottom: 15px; animation: bounce 1s infinite; position: relative; z-index: 1; }
+  @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
+  .prank-header h1 { color: white; font-size: 36px; font-weight: bold; letter-spacing: 2px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); position: relative; z-index: 1; }
+  .prank-content { padding: 40px; text-align: center; background: linear-gradient(to bottom, #ffffff 0%, #f5f5f5 100%); }
+  .gotcha-text { font-size: 24px; font-weight: bold; color: #e53935; margin-bottom: 25px; animation: pulse 1.5s infinite; }
+  @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+  .info-box { background: #e3f2fd; border: 3px dashed #1565c0; padding: 15px 25px; border-radius: 12px; margin: 20px 0; display: inline-block; transform: rotate(-2deg); transition: transform 0.3s; }
+  .info-box:hover { transform: rotate(2deg) scale(1.05); }
+  .reg-number { font-size: 28px; font-weight: bold; color: #1a237e; letter-spacing: 3px; font-family: 'Courier New', monospace; }
+  .stream-badge { background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%); border: 2px solid #ff9800; color: #e65100; padding: 8px 24px; border-radius: 25px; font-weight: bold; display: inline-block; margin: 15px 0; font-size: 16px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+  .result-section { margin: 30px 0; padding: 25px; background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%); border-radius: 16px; border: 2px solid #e53935; }
+  .result-label { font-size: 14px; color: #666; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; }
+  .result-score { font-size: 64px; font-weight: bold; color: #c62828; line-height: 1; text-shadow: 3px 3px 0px rgba(0,0,0,0.1); animation: wobble 2s ease-in-out infinite; }
+  @keyframes wobble { 0%, 100% { transform: rotate(-3deg); } 50% { transform: rotate(3deg); } }
+  .result-subject { font-size: 20px; color: #d32f2f; margin-top: 10px; font-weight: bold; }
+  .footer-text { color: #666; font-size: 16px; line-height: 1.6; margin-top: 25px; }
+  .close-btn { background: linear-gradient(135deg, #1a237e 0%, #283593 100%); color: white; border: none; padding: 16px 48px; font-size: 18px; border-radius: 30px; cursor: pointer; font-weight: bold; margin-top: 30px; box-shadow: 0 10px 20px rgba(26,35,126,0.3); transition: all 0.3s; text-transform: uppercase; letter-spacing: 1px; }
+  .close-btn:hover { transform: translateY(-3px) scale(1.05); box-shadow: 0 15px 30px rgba(26,35,126,0.4); }
+  .close-btn:active { transform: translateY(-1px); }
+  .laughing-emoji { position: fixed; font-size: 40px; pointer-events: none; animation: float-emoji 4s ease-in forwards; z-index: 9999; }
+  @keyframes float-emoji { 0% { transform: translateY(0) scale(0); opacity: 0; } 20% { transform: translateY(-50px) scale(1); opacity: 1; } 100% { transform: translateY(-300px) scale(0.5); opacity: 0; } }
+  .troll-face { position: absolute; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; opacity: 0.3; animation: peek 3s ease-in-out infinite; }
+  @keyframes peek { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+  .troll-1 { top: 20px; left: 20px; animation-delay: 0s; }
+  .troll-2 { bottom: 20px; right: 20px; animation-delay: 1s; }
+  .troll-3 { top: 50%; left: 10px; animation-delay: 2s; }
+</style>
+
+<div class="top-bar">Government of Karnataka | Department of Pre-University Education | Helpline: 080-22234567</div>
+
+<div class="header">
+  <div class="emblem">
+    <svg width="46" height="46" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="30" cy="30" r="28" fill="#1a237e" stroke="#ffd700" stroke-width="2"/>
+      <circle cx="30" cy="30" r="20" fill="none" stroke="#ffd700" stroke-width="1.5"/>
+      <text x="30" y="26" text-anchor="middle" fill="#ffd700" font-size="8" font-weight="bold">KA</text>
+      <text x="30" y="38" text-anchor="middle" fill="white" font-size="6">KARNATAKA</text>
+      <circle cx="30" cy="30" r="4" fill="#ffd700"/>
+    </svg>
+  </div>
+  <div class="header-text">
+    <h1>Karnataka School Examination and Assessment Board</h1>
+    <h2>ಕರ್ನಾಟಕ ಶಾಲಾ ಪರೀಕ್ಷೆ ಮತ್ತು ಮೌಲ್ಯಮಾಪನ ಮಂಡಳಿ</h2>
+    <h3>Department of Pre-University Education, Government of Karnataka</h3>
+  </div>
+</div>
+
+<div class="nav-bar">
+  <a href="#">Home</a>
+  <a href="#">About KSEAB</a>
+  <a href="#">Results</a>
+  <a href="#">Notifications</a>
+  <a href="#">Hall Ticket</a>
+  <a href="#">Re-Valuation</a>
+  <a href="#">Contact Us</a>
+</div>
+
+<div class="marquee-bar">
+  <marquee>
+    &nbsp;&nbsp;&nbsp; IMPORTANT: 2nd PUC Annual Examination April 2025 Results are now available. Students can check their results below. &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp; For any queries contact helpdesk: pue.results@karnataka.gov.in &nbsp;&nbsp;&nbsp;
+  </marquee>
+</div>
+
+<div class="main">
+  <div class="result-box">
+    <div class="result-box-header">2nd PUC Annual Examination - April 2025 | Result</div>
+    <div class="result-box-body">
+      <div class="notice">
+        Enter your Register Number and select your combination to view results. Fields marked * are mandatory.
+      </div>
+      <div class="form-group">
+        <label>Register Number *</label>
+        <input type="text" id="regNum" placeholder="Enter 11-digit Register Number" maxlength="11" oninput="this.value=this.value.replace(/\D/g,'')" />
+      </div>
+      <div class="form-group">
+        <label>Combination *</label>
+        <select id="combo">
+          <option value="">-- Select Combination --</option>
+          <option value="Science">Science</option>
+          <option value="Commerce">Commerce</option>
+          <option value="Arts">Arts</option>
+        </select>
+      </div>
+      <div class="btn-row">
+        <button class="btn-submit" onclick="submitResult()">Get Result</button>
+        <button class="btn-reset" onclick="resetForm()">Reset</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="side-info">
+    <h4>Instructions for Students</h4>
+    <ul>
+      <li>Enter your 11-digit Register Number exactly as printed on your Hall Ticket.</li>
+      <li>Select the correct combination (Science / Commerce / Arts) you appeared for.</li>
+      <li>Results will be displayed along with subject-wise marks.</li>
+      <li>For Mark Sheet / Passing Certificate queries, contact your college principal.</li>
+      <li>Re-valuation applications can be submitted within 30 days of result declaration.</li>
+    </ul>
+  </div>
+</div>
+
+<div class="footer">
+  &copy; 2025 <span>Karnataka School Examination and Assessment Board (KSEAB)</span> | All Rights Reserved<br>
+  Designed &amp; Developed by NIC Karnataka | Best viewed in Chrome / Firefox
+</div>
+
+<div class="loading-overlay" id="loadingOverlay">
+  <div class="spinner"></div>
+  <div class="loading-text" id="loadingText">Fetching your result...</div>
+  <div class="loading-sub" id="loadingSub">Please wait, connecting to KSEAB server</div>
+</div>
+
+<div class="prank-modal" id="prankModal">
+  <div class="particles" id="particles"></div>
+  <div class="troll-face troll-1">😂</div>
+  <div class="troll-face troll-2">🤣</div>
+  <div class="troll-face troll-3">😜</div>
+
+  <div class="prank-container">
+    <div class="prank-header">
+      <span class="emoji-display">🎉</span>
+      <h1>APRIL FOOL! 🤣</h1>
+    </div>
+    
+    <div class="prank-content">
+      <div class="gotcha-text">GOTCHA! 😂😂😂</div>
+      
+      <p style="font-size: 16px; color: #555; margin-bottom: 10px;">Your Register Number:</p>
+      <div class="info-box">
+        <div class="reg-number" id="displayReg">2025APRIL001</div>
+      </div>
+      
+      <div class="stream-badge" id="displayCombo">🏫 Science Stream</div>
+      
+      <div class="result-section">
+        <div class="result-label">Your Official Result</div>
+        <div class="result-score">ಇಲ್ಲೇನೋ</div>
+        <div style="font-size: 24px; color: #c62828; font-weight: bold; margin-top: 5px;">ನೋಡ್ತೀದೀಯ</div>
+        <div class="result-subject">Subject: Getting Pranked 🤦‍♂️</div>
+      </div>
+      
+      <div class="footer-text">
+        <p>This was a fake result site made just for laughs!</p>
+        <p>Happy April Fool's Day! 🎊🎉</p>
+        <p style="font-size: 12px; color: #999; margin-top: 15px;">Don't worry, your actual results are safe! 😄</p>
+      </div>
+      
+      <button class="close-btn" onclick="closePrankModal()">
+        OK FINE, YOU GOT ME 😂
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+var loadingMessages = [
+  ["Fetching your result...", "Please wait, connecting to KSEAB server"],
+  ["Verifying Register Number...", "Checking database records"],
+  ["Loading subject-wise marks...", "Almost there, please do not refresh"],
+  ["Preparing result sheet...", "Finalizing your result..."]
+];
+var msgIndex = 0;
+var msgTimer = null;
+
+function submitResult() {
+  var reg = document.getElementById('regNum').value.trim();
+  var combo = document.getElementById('combo').value;
+  if (!reg || reg.length < 11) { alert('Please enter a valid 11-digit Register Number!'); return; }
+  if (!combo) { alert('Please select your Combination!'); return; }
+
+  msgIndex = 0;
+  document.getElementById('loadingText').textContent = loadingMessages[0][0];
+  document.getElementById('loadingSub').textContent = loadingMessages[0][1];
+  document.getElementById('loadingOverlay').classList.add('show');
+
+  msgTimer = setInterval(function() {
+    msgIndex++;
+    if (msgIndex < loadingMessages.length) {
+      document.getElementById('loadingText').textContent = loadingMessages[msgIndex][0];
+      document.getElementById('loadingSub').textContent = loadingMessages[msgIndex][1];
+    }
+  }, 1200);
+
+  setTimeout(function() {
+    clearInterval(msgTimer);
+    document.getElementById('loadingOverlay').classList.remove('show');
+    document.getElementById('displayReg').textContent = reg;
+    document.getElementById('displayCombo').innerHTML = '🏫 ' + combo + ' Stream';
+    document.getElementById('prankModal').classList.add('show');
+    
+    // Start effects
+    createConfetti();
+    setInterval(createFloatingEmoji, 800);
+    
+    // Play sound effects
+    setTimeout(playLaugh, 300);
+    setTimeout(playLaugh, 800);
+    setTimeout(playLaugh, 1300);
+    
+    resetForm();
+  }, 5000);
+}
+
+// Create background particles
+function initializeParticles() {
+  const particlesContainer = document.getElementById('particles');
+  if (particlesContainer && !particlesContainer.hasChildNodes()) {
+    for (let i = 0; i < 20; i++) {
+      const particle = document.createElement('div');
+      particle.className = 'particle';
+      particle.style.left = Math.random() * 100 + '%';
+      particle.style.animationDelay = Math.random() * 15 + 's';
+      particle.style.animationDuration = (15 + Math.random() * 10) + 's';
+      particlesContainer.appendChild(particle);
+    }
+  }
+}
+
+// Confetti effect
+function createConfetti() {
+  const colors = ['#ff6f00', '#e53935', '#ffd700', '#4caf50', '#2196f3', '#9c27b0'];
+  for (let i = 0; i < 50; i++) {
+    setTimeout(() => {
+      const confetti = document.createElement('div');
+      confetti.className = 'confetti';
+      confetti.style.left = Math.random() * 100 + '%';
+      confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+      confetti.style.animationDuration = (2 + Math.random() * 2) + 's';
+      confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+      document.body.appendChild(confetti);
+      setTimeout(() => confetti.remove(), 4000);
+    }, i * 50);
+  }
+}
+
+// Floating laughing emojis
+function createFloatingEmoji() {
+  const emojis = ['😂', '🤣', '😜', '🤪', '🎉', '🎊'];
+  const emoji = document.createElement('div');
+  emoji.className = 'laughing-emoji';
+  emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+  emoji.style.left = Math.random() * window.innerWidth + 'px';
+  emoji.style.top = window.innerHeight + 'px';
+  document.body.appendChild(emoji);
+  setTimeout(() => emoji.remove(), 4000);
+}
+
+// Play funny sound effect
+function playLaugh() {
+  try {
+    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    const oscillator = audioContext.createOscillator();
+    const gainNode = audioContext.createGain();
+    
+    oscillator.connect(gainNode);
+    gainNode.connect(audioContext.destination);
+    
+    oscillator.frequency.setValueAtTime(400, audioContext.currentTime);
+    oscillator.frequency.exponentialRampToValueAtTime(600, audioContext.currentTime + 0.1);
+    oscillator.frequency.exponentialRampToValueAtTime(400, audioContext.currentTime + 0.2);
+    
+    gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
+    
+    oscillator.start(audioContext.currentTime);
+    oscillator.stop(audioContext.currentTime + 0.3);
+  } catch(e) {
+    console.log('Audio not supported');
+  }
+}
+function resetForm() {
+  document.getElementById('regNum').value = '';
+  document.getElementById('combo').value = '';
+}
+
+function closePrankModal() {
+  document.getElementById('prankModal').classList.remove('show');
+}
+
+// Initialize particles when page loads
+window.addEventListener('load', initializeParticles);
+
+// Prevent right click (add to the prank)
+document.addEventListener('contextmenu', (e) => {
+  e.preventDefault();
+  alert('No cheating! 😜\nYou\'ve been pranked fair and square!');
+});
+</script>
