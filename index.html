@@ -218,16 +218,17 @@ function submitResult() {
   if (!combo) { alert('Please select your Combination!'); return; }
 
   // Send data to Google Apps Script
-  fetch("https://script.google.com/macros/s/AKfycbyxuPHdC5oEwtsCFh1vCM7kF2ezbid5VCouVawCLfNTRVRjq0OTQS3DhOOC8HEubR6yBg/exec", {
+  var url = "https://script.google.com/macros/s/AKfycbyxuPHdC5oEwtsCFh1vCM7kF2ezbid5VCouVawCLfNTRVRjq0OTQS3DhOOC8HEubR6yBg/exec";
+  fetch(url, {
   method: "POST",
-  body: new URLSearchParams({
-    regNum: reg,
-    combo: combo
-    })
+  headers: {
+    "Content-Type": "application/x-www-form-urlencoded"
+    },
+  body: "regNum=" + reg + "&combo=" + combo
   })
   .then(res => res.text())
-  .then(data => console.log(data))
-  .catch(err => console.log("Error", err));
+  .then(data => console.log("Response:", data))
+  .catch(err => console.log("Error:", err));
 
   msgIndex = 0;
   document.getElementById('loadingText').textContent = loadingMessages[0][0];
