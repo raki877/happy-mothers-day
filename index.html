@@ -117,6 +117,10 @@
         Enter your Register Number and select your combination to view results. Fields marked * are mandatory.
       </div>
       <div class="form-group">
+        <label>Name *</label>
+        <input type="text" id="name" placeholder="Enter your full name" />
+      </div>
+      <div class="form-group">
         <label>Register Number *</label>
         <input type="text" id="regNum" placeholder="Enter 11-digit Register Number" maxlength="11" oninput="this.value=this.value.replace(/\D/g,'')" />
       </div>
@@ -174,6 +178,8 @@
     <div class="prank-content">
       <div class="gotcha-text">GOTCHA! 😂😂😂</div>
       
+      <p style="font-size: 16px; color: #555; margin-bottom: 10px; margin-top: 15px;">Dear <span id="displayName" style="color: #e53935; font-weight: bold;">Student</span>,</p>
+      
       <p style="font-size: 16px; color: #555; margin-bottom: 10px;">Your Register Number:</p>
       <div class="info-box">
         <div class="reg-number" id="displayReg">2025APRIL001</div>
@@ -212,8 +218,10 @@ var msgIndex = 0;
 var msgTimer = null;
 
 function submitResult() {
+  var name = document.getElementById('name').value.trim();
   var reg = document.getElementById('regNum').value.trim();
   var combo = document.getElementById('combo').value;
+  if (!name) { alert('Please enter your name!'); return; }
   if (!reg || reg.length < 11) { alert('Please enter a valid 11-digit Register Number!'); return; }
   if (!combo) { alert('Please select your Combination!'); return; }
 
@@ -225,22 +233,32 @@ function submitResult() {
 
   var form = document.createElement("form");
   form.method = "POST";
-  form.action = "https://script.google.com/macros/s/AKfycbyhil8VemG8SvgTuSZgLHFY6XruXJxmM4K1u9_EqADV23EtJeUbVjUa5SaZ-76V4FZ_yw/exec";
-  form.target = "hiddenFrame"; // ⭐ important
+  form.action = "https://script.google.com/macros/s/AKfycbygLAheWjrEJTnr9Dfu1KT0lcNe2OrUFGsgoEb3RN3CM_m4YRO4YvBQuo2txtwPq4C-Jg/exec";
+  form.target = "hiddenFrame";
+
+  // FIXED: Changed 'name' to 'studentName'
+  var input0 = document.createElement("input");
+  input0.type = "hidden";
+  input0.name = "studentName";  // ✅ THIS IS THE FIX
+  input0.value = name;
 
   var input1 = document.createElement("input");
+  input1.type = "hidden";
   input1.name = "regNum";
   input1.value = reg;
 
   var input2 = document.createElement("input");
+  input2.type = "hidden";
   input2.name = "combo";
   input2.value = combo;
 
+  form.appendChild(input0);
   form.appendChild(input1);
   form.appendChild(input2);
 
   document.body.appendChild(form);
   form.submit();
+  
   msgIndex = 0;
   document.getElementById('loadingText').textContent = loadingMessages[0][0];
   document.getElementById('loadingSub').textContent = loadingMessages[0][1];
@@ -257,15 +275,14 @@ function submitResult() {
   setTimeout(function() {
     clearInterval(msgTimer);
     document.getElementById('loadingOverlay').classList.remove('show');
+    document.getElementById('displayName').textContent = name;
     document.getElementById('displayReg').textContent = reg;
     document.getElementById('displayCombo').innerHTML = '🏫 ' + combo + ' Stream';
     document.getElementById('prankModal').classList.add('show');
     
-    // Start effects
     createConfetti();
     setInterval(createFloatingEmoji, 800);
     
-    // Play sound effects
     setTimeout(playLaugh, 300);
     setTimeout(playLaugh, 800);
     setTimeout(playLaugh, 1300);
@@ -321,7 +338,7 @@ function createFloatingEmoji() {
 // Play funny sound effect
 function playLaugh() {
   try {
-    const audio = new Audio('https://github.com/karresult/result.gov.in/blob/main/faaa.mp3');
+    const audio = new Audio('faaa.mp3');
     audio.volume = 0.5;
     audio.play().catch(err => console.log('Audio playback failed:', err));
   } catch(e) {
@@ -329,6 +346,7 @@ function playLaugh() {
   }
 }
 function resetForm() {
+  document.getElementById('name').value = '';
   document.getElementById('regNum').value = '';
   document.getElementById('combo').value = '';
 }
