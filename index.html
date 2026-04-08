@@ -319,22 +319,23 @@ function createFloatingEmoji() {
 }
 
 // Play funny sound effect
-function playLaugh() {
-  try {
-    const audio = new Audio('https://github.com/karresult/result.gov.in/blob/main/faaa.mp3');
-    audio.volume = 0.5;
-    audio.play().catch(err => console.log('Audio playback failed:', err));
-  } catch(e) {
-    console.log('Audio not supported');
-  }
-}
-function resetForm() {
-  document.getElementById('regNum').value = '';
-  document.getElementById('combo').value = '';
+let prankAudio;
+
+function initAudio() {
+  prankAudio = new Audio('https://github.com/karresult/result.gov.in/blob/main/faaa.mp3');
+  prankAudio.volume = 0.5;
+
+  // Unlock for mobile
+  prankAudio.play().then(() => {
+    prankAudio.pause();
+    prankAudio.currentTime = 0;
+  }).catch(() => {});
 }
 
-function closePrankModal() {
-  document.getElementById('prankModal').classList.remove('show');
+function playAudio() {
+  if (prankAudio) {
+    prankAudio.play().catch(err => console.log(err));
+  }
 }
 
 // Initialize particles when page loads
