@@ -601,4 +601,299 @@ for (let i=0; i<NUM_BARS; i++) {
   val.textContent = '0%';
   valEls.push(val);
 
-  const bar = document.createEle
+  const bar = document.createElement('div');
+  bar.className = 'bar';
+  bar.style.background = barColors[i];
+  bar.style.height = '0%';
+  bar.style.boxShadow = `0 0 12px rgba(255,107,157,0.5)`;
+  barEls.push(bar);
+
+  col.appendChild(val);
+  col.appendChild(bar);
+  graphBars.appendChild(col);
+}
+
+/* ── per-bar target heights & smooth lerp ── */
+const barTargets = barEls.map(() => rand(20, 85));
+const barCurrent = barEls.map(() => 0);
+let lastBarSwap = 0;
+
+function startGraphAnim() {
+  // assign new random targets every 600ms, bars lerp smoothly
+}
+
+/* ════════════════════════════════════════════
+   CHIP & PERCENT ANIMATION
+════════════════════════════════════════════ */
+const chips = [
+  { el: document.getElementById('chip1'), label: '❤️ ತ್ಯಾಗ' },
+  { el: document.getElementById('chip2'), label: '💛 ಸ್ನೇಹ' },
+  { el: document.getElementById('chip3'), label: '💜 ಕಾಳಜಿ' },
+  { el: document.getElementById('chip4'), label: '💚 ಬಲಿದಾನ' },
+];
+const chipValues = [0, 0, 0, 0];
+const chipTargets = [rand(80,100), rand(80,100), rand(80,100), rand(80,100)];
+let lastChipSwap = 0;
+
+const statusMsgs = [
+  'SCANNING HEART FREQUENCIES...',
+  'MEASURING CARE UNITS...',
+  'COMPUTING SACRIFICE INDEX...',
+  'ANALYZING LOVE PARTICLES...',
+  'CALIBRATING AFFECTION METER...',
+  'PROCESSING WARMTH DATA...',
+  'QUANTIFYING DEVOTION...',
+  'CALCULATING INFINITY...',
+];
+
+let statusIdx = 0, lastStatusSwap = 0;
+const pctEl = document.getElementById('pct');
+const statusEl = document.getElementById('statusTxt');
+const loadFill = document.getElementById('loadFill');
+
+let calcRunning = false, calcStart = 0, calcDuration = 0;
+let rafId;
+
+function calcLoop(now) {
+  if (!calcRunning) return;
+
+  const elapsed = now - calcStart;
+  const frac = Math.min(elapsed / calcDuration, 1);
+
+  /* ── progress bar: silky smooth ── */
+  const eased = frac < 1 ? 1 - Math.pow(1 - frac, 2.5) : 1; // ease-out
+  loadFill.style.width = (eased * 100).toFixed(2) + '%';
+
+  /* ── percentage counter: smooth with small noise ── */
+  const base = Math.floor(eased * 100);
+  const noise = frac < 0.97 ? randInt(0, 2) : 0;
+  pctEl.textContent = Math.min(base + noise, 100) + '%';
+
+  /* ── bars: lerp toward targets, swap targets every 700ms ── */
+  if (now - lastBarSwap > 700) {
+    barEls.forEach((_, i) => barTargets[i] = rand(15, 95));
+    lastBarSwap = now;
+  }
+  barEls.forEach((bar, i) => {
+    barCurrent[i] += (barTargets[i] - barCurrent[i]) * 0.08;
+    const h = Math.round(barCurrent[i]);
+    bar.style.height = h + '%';
+    valEls[i].textContent = h + '%';
+  });
+
+  /* ── chips: lerp toward targets, swap every 900ms ── */
+  if (now - lastChipSwap > 900) {
+    chips.forEach((_, i) => chipTargets[i] = rand(78, 100));
+    lastChipSwap = now;
+  }
+  chips.forEach((c, i) => {
+    chipValues[i] += (chipTargets[i] - chipValues[i]) * 0.06;
+    c.el.textContent = `${c.label}: ${Math.round(chipValues[i])}%`;
+  });
+
+  /* ── status messages: rotate every 900ms ── */
+  if (now - lastStatusSwap > 900) {
+    statusEl.textContent = statusMsgs[statusIdx % statusMsgs.length];
+    statusIdx++; lastStatusSwap = now;
+  }
+
+  if (frac < 1) rafId = requestAnimationFrame(calcLoop);
+}
+
+function startCalcAnim(startTime, duration) {
+  calcRunning = true; calcStart = startTime; calcDuration = duration;
+  lastBarSwap = performance.now();
+  lastChipSwap = performance.now();
+  lastStatusSwap = performance.now();
+  statusEl.textContent = statusMsgs[0];
+  rafId = requestAnimationFrame(calcLoop);
+
+}
+
+
+function stopCalcAnim() {
+  calcRunning = false;
+  cancelAnimationFrame(rafId);
+  pctEl.textContent = '∞';
+  statusEl.textContent = 'RESULT: IMMEASURABLE ❤️';
+  loadFill.style.transition = 'width 1s ease';
+  loadFill.style.width = '100%';
+  barEls.forEach(bar => {
+    bar.style.transition = 'height 1.8s cubic-bezier(.4,0,.2,1)';
+    bar.style.height = '0%';
+  });
+  chips.forEach((c, i) => {
+    c.el.textContent = c.label + ': ∞';
+  });
+}
+
+/* ════════════════════════════════════════════
+   SPARKLE EXPLOSION
+════════════════════════════════════════════ */
+const sCanvas = document.getElementById('sparkleCanvas');
+const sCtx = sCanvas.getContext('2d');
+let sparkles = [];
+
+function resizeS() { sCanvas.width = window.innerWidth; sCanvas.height = window.innerHeight; }
+resizeS(); window.addEventListener('resize', resizeS);
+
+class Sparkle {
+  constructor(x,y) {
+    this.x = x; this.y = y;
+    const angle = rand(0, Math.PI*2);
+    const spd = rand(2, 8);
+    this.vx = Math.cos(angle)*spd; this.vy = Math.sin(angle)*spd;
+    this.life = 1;
+    this.decay = rand(0.012, 0.025);
+    this.r = rand(2, 6);
+    this.col = pick(['#ffd700','#ff6b9d','#fff4e6','#ffb347','#e8456a','#ff4da6']);
+    this.vy -= rand(1,3); // slight upward bias
+  }
+  update() {
+    this.x += this.vx; this.y += this.vy;
+    this.vy += 0.1; // gravity
+    this.life -= this.decay;
+  }
+  draw() {
+    if (this.life <= 0) return;
+    sCtx.save();
+    sCtx.globalAlpha = this.life;
+    sCtx.beginPath();
+    // star shape
+    for (let i=0; i<5; i++) {
+      const a = (i*4*Math.PI/5) - Math.PI/2;
+      const b = ((i*4+2)*Math.PI/5) - Math.PI/2;
+      i===0 ? sCtx.moveTo(this.x+Math.cos(a)*this.r, this.y+Math.sin(a)*this.r)
+            : sCtx.lineTo(this.x+Math.cos(a)*this.r, this.y+Math.sin(a)*this.r);
+      sCtx.lineTo(this.x+Math.cos(b)*this.r*0.4, this.y+Math.sin(b)*this.r*0.4);
+    }
+    sCtx.closePath();
+    sCtx.fillStyle = this.col;
+    sCtx.shadowBlur = 15; sCtx.shadowColor = this.col;
+    sCtx.fill();
+    sCtx.restore();
+  }
+}
+
+let sparkleActive = false;
+function explodeSparkles() {
+  sparkleActive = true;
+  const cx = window.innerWidth/2, cy = window.innerHeight/2;
+  for (let i=0; i<250; i++) {
+    setTimeout(() => sparkles.push(new Sparkle(cx+rand(-80,80), cy+rand(-80,80))), rand(0,800));
+  }
+}
+
+function animSparkles() {
+  if (sparkleActive) {
+    sCtx.clearRect(0,0,sCanvas.width,sCanvas.height);
+    sparkles = sparkles.filter(s=>s.life>0);
+    sparkles.forEach(s=>{ s.update(); s.draw(); });
+  }
+  requestAnimationFrame(animSparkles);
+}
+animSparkles();
+
+/* ════════════════════════════════════════════
+   POPUP HEARTS
+════════════════════════════════════════════ */
+const popupHearts = document.getElementById('popupHearts');
+function addPopupHearts() {
+  for (let i=0; i<12; i++) {
+    const h = document.createElement('div');
+    h.className = 'ph';
+    h.textContent = pick(['❤️','💖','💗','✨','🌸','💕']);
+    h.style.cssText = `left:${rand(5,90)}%;animation-delay:${rand(0,2.5)}s;animation-duration:${rand(2,4)}s;font-size:${rand(0.8,1.5)}rem;`;
+    popupHearts.appendChild(h);
+  }
+}
+
+/* ════════════════════════════════════════════
+   BOY VOICE — WEB SPEECH API
+════════════════════════════════════════════ */
+function speakBoyVoice() {
+  if (!window.speechSynthesis) return;
+  window.speechSynthesis.cancel(); // clear any queue
+
+  const lines = [
+    { text: "Happy Mother's Day... Amma.",        delay: 0    },
+    { text: "I love you so much, Amma.",           delay: 2800 },
+    { text: "You are my whole world.",             delay: 5400 },
+  ];
+
+  function pickBoyVoice() {
+    const voices = window.speechSynthesis.getVoices();
+    // Priority: child/young/male en voices
+    const preferred = voices.find(v =>
+      /child|boy|junior|kid/i.test(v.name)
+    );
+    if (preferred) return preferred;
+    // fallback: en-IN male (sounds younger & warm)
+    const enIN = voices.find(v => v.lang === 'en-IN' && /male|man|ravi|veena/i.test(v.name));
+    if (enIN) return enIN;
+    // fallback: any en-IN
+    const anyIN = voices.find(v => v.lang === 'en-IN');
+    if (anyIN) return anyIN;
+    // fallback: en-US male
+    const enUS = voices.find(v => v.lang === 'en-US' && /male|david|alex|zira/i.test(v.name));
+    if (enUS) return enUS;
+    // last resort: first English voice
+    return voices.find(v => v.lang.startsWith('en')) || voices[0];
+  }
+
+  function speak(line) {
+    const utt = new SpeechSynthesisUtterance(line.text);
+    const voice = pickBoyVoice();
+    if (voice) utt.voice = voice;
+
+    // boy voice tuning
+    utt.pitch  = 1.55;   // higher = younger/boyish
+    utt.rate   = 0.82;   // slightly slower = emotional
+    utt.volume = 1.0;
+    return utt;
+  }
+
+  // Voices may not be loaded yet — wait if needed
+  function fireAll() {
+    lines.forEach(line => {
+      setTimeout(() => {
+        window.speechSynthesis.speak(speak(line));
+      }, line.delay);
+    });
+  }
+
+  if (window.speechSynthesis.getVoices().length > 0) {
+    fireAll();
+  } else {
+    window.speechSynthesis.addEventListener('voiceschanged', fireAll, { once: true });
+  }
+}
+
+/* ════════════════════════════════════════════
+   FLOW CONTROLLER
+════════════════════════════════════════════ */
+document.getElementById('btn-start').addEventListener('click', () => {
+  // 1 — transition to calc screen
+  document.getElementById('screen-open').classList.add('hide');
+  document.getElementById('screen-calc').classList.add('show');
+
+  // 2 — start animations
+  const start = performance.now();
+  const DURATION = 8000;
+  startCalcAnim(start, DURATION);
+
+  // 3 — after 8s, stop & show popup
+  setTimeout(() => {
+    stopCalcAnim();
+
+    setTimeout(() => {
+      addPopupHearts();
+      explodeSparkles();
+      document.getElementById('popup-overlay').classList.add('show');
+      speakBoyVoice();
+    }, 1200);
+  }, DURATION);
+});
+</script>
+</body>
+</html>
