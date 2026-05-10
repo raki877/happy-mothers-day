@@ -3,14 +3,14 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>\u0c85\u0cae\u0ccd\u0cae \u2764\ufe0f \u2014 Happy Mother's Day</title>
+<title>ಅಮ್ಮ ❤️ — Happy Mother's Day</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Kannada:wght@300;400;600;700;900&family=Playfair+Display:ital,wght@0,700;1,400&family=Great+Vibes&display=swap" rel="stylesheet" />
 <style>
-  /* \u2500\u2500\u2500 RESET & BASE \u2500\u2500\u2500 */
+  /* ─── RESET & BASE ─── */
   *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
   html, body { width: 100%; height: 100%; overflow: hidden; font-family: 'Noto Sans Kannada', sans-serif; }
 
-  /* \u2500\u2500\u2500 CSS VARIABLES \u2500\u2500\u2500 */
+  /* ─── CSS VARIABLES ─── */
   :root {
     --pink:   #ff6b9d;
     --rose:   #e8456a;
@@ -21,9 +21,9 @@
     --glass:  rgba(255,255,255,0.08);
   }
 
-  /* \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550
-     SCREEN 1 \u2014 OPENING
-  \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550 */
+  /* ═══════════════════════════════════════
+     SCREEN 1 — OPENING
+  ════════════════════════════════════════ */
   #screen-open {
     position: fixed; inset: 0; z-index: 10;
     display: flex; flex-direction: column; align-items: center; justify-content: center;
@@ -46,10 +46,10 @@
     from { opacity: 0.7; } to { opacity: 1; }
   }
 
-  /* \u2500\u2500 PARTICLE CANVAS \u2500\u2500 */
+  /* ── PARTICLE CANVAS ── */
   #particleCanvas { position: absolute; inset: 0; pointer-events: none; }
 
-  /* \u2500\u2500 HERO TEXT \u2500\u2500 */
+  /* ── HERO TEXT ── */
   .hero-wrap {
     position: relative; text-align: center; z-index: 2;
     animation: fadeInUp 1.8s cubic-bezier(.16,1,.3,1) both;
@@ -75,14 +75,17 @@
 
   .amma-sub {
     margin-top: 1rem;
-    font-size: clamp(1rem, 3.5vw, 1.6rem);
+    font-size: clamp(0.72rem, 2.2vw, 1.05rem);
     font-weight: 300;
     color: rgba(255,244,230,0.75);
-    letter-spacing: 0.04em;
+    letter-spacing: 0.03em;
+    line-height: 1.75;
+    max-width: min(88vw, 640px);
+    text-align: center;
     animation: fadeInUp 1.8s 0.4s cubic-bezier(.16,1,.3,1) both;
   }
 
-  /* \u2500\u2500 GLOW BUTTON \u2500\u2500 */
+  /* ── GLOW BUTTON ── */
   #btn-start {
     margin-top: 3.5rem;
     padding: 1.1rem 3rem;
@@ -121,9 +124,9 @@
     100% { opacity: 0; transform: translateY(-110vh) rotate(30deg) scale(1.2); }
   }
 
-  /* \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550
-     SCREEN 2 \u2014 GRAPH / CALCULATING
-  \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550 */
+  /* ═══════════════════════════════════════
+     SCREEN 2 — GRAPH / CALCULATING
+  ════════════════════════════════════════ */
   #screen-calc {
     position: fixed; inset: 0; z-index: 9;
     display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0;
@@ -184,7 +187,7 @@
     z-index: 2;
   }
 
-  /* \u2500\u2500 GRAPH CONTAINER \u2500\u2500 */
+  /* ── GRAPH CONTAINER ── */
   .graph-wrap {
     position: relative;
     width: min(90vw, 700px);
@@ -228,7 +231,6 @@
     width: 100%;
     min-width: 22px;
     border-radius: 8px 8px 0 0;
-    transition: height 0.08s ease;
     position: relative;
     overflow: hidden;
   }
@@ -248,7 +250,7 @@
     white-space: nowrap;
   }
 
-  /* \u2500\u2500 STATS ROW \u2500\u2500 */
+  /* ── STATS ROW ── */
   .stats-row {
     display: flex; gap: 1rem; margin-top: 1rem; z-index: 2; flex-wrap: wrap; justify-content: center;
   }
@@ -287,9 +289,9 @@
     transition: width 0.1s linear;
   }
 
-  /* \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550
-     POPUP \u2014 FINAL REVEAL
-  \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550 */
+  /* ═══════════════════════════════════════
+     POPUP — FINAL REVEAL
+  ════════════════════════════════════════ */
   #popup-overlay {
     position: fixed; inset: 0; z-index: 100;
     display: flex; align-items: center; justify-content: center;
@@ -340,7 +342,7 @@
   }
   @keyframes borderSpin { to { transform: rotate(360deg); } }
 
-  /* \u2500\u2500 popup floating hearts \u2500\u2500 */
+  /* ── popup floating hearts ── */
   .popup-hearts { position: absolute; inset: 0; pointer-events: none; overflow: hidden; border-radius: 28px; }
   .ph { position: absolute; bottom: -10%; font-size: 1.2rem; opacity: 0; animation: popHeart 3s ease-in infinite; }
   @keyframes popHeart {
@@ -350,4 +352,467 @@
     100% { opacity: 0; transform: translateY(-110%) scale(1.3); }
   }
 
-  .popup-icon { font-size: clamp(2
+  .popup-icon { font-size: clamp(2.5rem, 8vw, 4rem); margin-bottom: 0.8rem; animation: iconBeat 1.5s ease-in-out infinite; display: block; }
+  @keyframes iconBeat {
+    0%,100% { transform: scale(1); }
+    50%      { transform: scale(1.15); }
+  }
+
+  .popup-main {
+    font-size: clamp(1.05rem, 3.5vw, 1.35rem);
+    font-weight: 700;
+    color: var(--cream);
+    line-height: 1.5;
+    margin-bottom: 0.8rem;
+    text-shadow: 0 0 20px rgba(255,107,157,0.5);
+  }
+
+  .popup-sub {
+    font-size: clamp(0.95rem, 3vw, 1.2rem);
+    font-weight: 400;
+    color: rgba(255,215,0,0.85);
+    margin-bottom: 1.8rem;
+    font-style: italic;
+  }
+
+  .popup-divider {
+    width: 60%; height: 1px; margin: 0 auto 1.8rem;
+    background: linear-gradient(90deg, transparent, rgba(255,107,157,0.5), transparent);
+  }
+
+  .popup-iloveyou {
+    font-family: 'Great Vibes', cursive;
+    font-size: clamp(2rem, 7vw, 3.2rem);
+    background: linear-gradient(135deg, #ffd700, #ff6b9d);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    filter: drop-shadow(0 0 15px rgba(255,215,0,0.5));
+    display: block; margin-bottom: 0.3rem;
+  }
+
+  .popup-hmd {
+    font-size: clamp(1rem, 3vw, 1.2rem);
+    color: var(--pink);
+    font-weight: 600;
+    margin-bottom: 0.6rem;
+    text-shadow: 0 0 15px rgba(255,107,157,0.6);
+  }
+
+  .popup-sign {
+    font-size: clamp(0.85rem, 2.5vw, 1rem);
+    color: rgba(255,200,180,0.7);
+    font-weight: 300;
+    letter-spacing: 0.12em;
+  }
+
+  /* ─── SPARKLE CANVAS ─── */
+  #sparkleCanvas { position: fixed; inset: 0; z-index: 99; pointer-events: none; }
+
+  /* ─── FLOATING BACKGROUND HEARTS (always) ─── */
+  #bg-hearts { position: fixed; inset: 0; z-index: 1; pointer-events: none; overflow: hidden; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-height: 600px) {
+    .graph-wrap { height: 140px; }
+    .popup-card { padding: 1.2rem 1.2rem; }
+    .stats-row  { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── BACKGROUND HEARTS ── -->
+<div id="bg-hearts"></div>
+
+<!-- ══════════════════════════════════════════
+     SCREEN 1
+══════════════════════════════════════════ -->
+<section id="screen-open">
+  <canvas id="particleCanvas"></canvas>
+
+  <div class="hero-wrap">
+    <div class="amma-title">ಅಮ್ಮ ❤️</div>
+    <div class="amma-sub">ಹುಟ್ಟಿದ ದಿನದಿಂದ ಹಿಡಿದು ಜೀವನದ ಪ್ರತಿ ದಿನವೂ ನನ್ನ ಕಷ್ಟ ಸುಖದಲ್ಲಿ ಬಾಗಿಯಾಗಿ ಜೀವನದಲ್ಲಿ ಹೀಗೆ ನಡೆಯಬೇಕು ಎ೦ದು ಹೇಳುತ್ತಾ. ಪ್ರತಿದಿನ ಧೈರ್ಯ ತುಂಬುವ ನನ್ನ ಅಮ್ಮನಿಗೆ ಅಮ್ಮಂದಿರ ದಿನದ ಶುಭಾಶಯಗಳು...</div>
+    <button id="btn-start">ಒತ್ತಿ ಅಮ್ಮ 💖</button>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     SCREEN 2 — CALCULATING
+══════════════════════════════════════════ -->
+<section id="screen-calc">
+  <div class="calc-label">ಅಮ್ಮನ ಪ್ರೀತಿಯನ್ನು ಲೆಕ್ಕ ಹಾಕಲಾಗುತ್ತಿದೆ...</div>
+  <div class="percent-display" id="pct">0%</div>
+  <div class="status-text" id="statusTxt">INITIALIZING LOVE METRICS...</div>
+
+  <div class="graph-wrap">
+    <div class="graph-bars" id="graphBars"></div>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-chip" id="chip1">❤️ ತ್ಯಾಗ: 0%</div>
+    <div class="stat-chip" id="chip2">💛 ಸ್ನೇಹ: 0%</div>
+    <div class="stat-chip" id="chip3">💜 ಕಾಳಜಿ: 0%</div>
+    <div class="stat-chip" id="chip4">💚 ಬಲಿದಾನ: 0%</div>
+  </div>
+
+  <div class="load-bar-wrap">
+    <div class="load-bar-fill" id="loadFill"></div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     FINAL POPUP
+══════════════════════════════════════════ -->
+<div id="popup-overlay">
+  <div class="popup-card">
+    <div class="popup-hearts" id="popupHearts"></div>
+    <span class="popup-icon">💝</span>
+    <div class="popup-main">ಯಾರಿಗೂ ಅಮ್ಮನ ಪ್ರೀತಿಯನ್ನು ಲೆಕ್ಕ ಹಾಕಲು ಸಾಧ್ಯವಿಲ್ಲ ❤️</div>
+    <div class="popup-sub">ಅಮ್ಮನ ಪ್ರೀತಿ ಅನಂತ...</div>
+    <div class="popup-divider"></div>
+    <span class="popup-iloveyou">I Love You Mom ❤️</span>
+    <div class="popup-hmd">Happy Mother's Day 🌸</div>
+    <div class="popup-sign">— ನಿನ್ ಮಗ ರಾಕೇಶ್ 💖</div>
+  </div>
+</div>
+
+<!-- sparkle canvas for explosion -->
+<canvas id="sparkleCanvas"></canvas>
+
+<script>
+/* ════════════════════════════════════════════
+   UTILITIES
+════════════════════════════════════════════ */
+const rand = (a,b) => Math.random()*(b-a)+a;
+const randInt = (a,b) => Math.floor(rand(a,b+1));
+const pick = arr => arr[randInt(0,arr.length-1)];
+
+/* ════════════════════════════════════════════
+   PARTICLE SYSTEM — OPENING SCREEN
+════════════════════════════════════════════ */
+const pCanvas = document.getElementById('particleCanvas');
+const pCtx = pCanvas.getContext('2d');
+let particles = [];
+
+function resizeP() { pCanvas.width = window.innerWidth; pCanvas.height = window.innerHeight; }
+resizeP(); window.addEventListener('resize', resizeP);
+
+class Particle {
+  constructor() { this.reset(); }
+  reset() {
+    this.x = rand(0, pCanvas.width);
+    this.y = rand(0, pCanvas.height);
+    this.r = rand(1, 3.5);
+    this.opacity = rand(0.1, 0.7);
+    this.vx = rand(-0.4, 0.4);
+    this.vy = rand(-0.8, -0.2);
+    this.life = rand(0.004, 0.012);
+    this.col = pick(['#ffd700','#ff6b9d','#ffb347','#fff4e6','#e8456a']);
+  }
+  update() {
+    this.x += this.vx; this.y += this.vy;
+    this.opacity -= this.life;
+    if (this.opacity <= 0) this.reset();
+  }
+  draw() {
+    pCtx.save();
+    pCtx.globalAlpha = this.opacity;
+    pCtx.beginPath();
+    pCtx.arc(this.x, this.y, this.r, 0, Math.PI*2);
+    pCtx.fillStyle = this.col;
+    pCtx.shadowBlur = 10; pCtx.shadowColor = this.col;
+    pCtx.fill();
+    pCtx.restore();
+  }
+}
+
+for (let i=0; i<120; i++) particles.push(new Particle());
+
+function animParticles() {
+  pCtx.clearRect(0,0,pCanvas.width,pCanvas.height);
+  particles.forEach(p=>{ p.update(); p.draw(); });
+  requestAnimationFrame(animParticles);
+}
+animParticles();
+
+/* ════════════════════════════════════════════
+   FLOATING HEARTS — ALWAYS
+════════════════════════════════════════════ */
+const bgH = document.getElementById('bg-hearts');
+const heartEmojis = ['❤️','💖','💗','💕','💓','🌸','✨'];
+for (let i=0; i<18; i++) {
+  const h = document.createElement('div');
+  h.className = 'heart-float';
+  h.textContent = pick(heartEmojis);
+  const sz = rand(0.8, 2.2);
+  h.style.cssText = `
+    left:${rand(0,100)}%;
+    font-size:${sz}rem;
+    animation-duration:${rand(8,18)}s;
+    animation-delay:${rand(0,12)}s;
+    bottom: -5%;
+  `;
+  bgH.appendChild(h);
+}
+
+/* ════════════════════════════════════════════
+   BUILD GRAPH BARS
+════════════════════════════════════════════ */
+const barColors = [
+  'linear-gradient(to top, #e8456a, #ff6b9d)',
+  'linear-gradient(to top, #ff8c00, #ffd700)',
+  'linear-gradient(to top, #c20078, #ff6b9d)',
+  'linear-gradient(to top, #ff4500, #ffb347)',
+  'linear-gradient(to top, #8b0045, #e8456a)',
+  'linear-gradient(to top, #ff6b9d, #fff4e6)',
+  'linear-gradient(to top, #ffa500, #ffd700)',
+  'linear-gradient(to top, #dc143c, #ff6b9d)',
+];
+
+const graphBars = document.getElementById('graphBars');
+const barEls = []; const valEls = [];
+const NUM_BARS = 8;
+
+for (let i=0; i<NUM_BARS; i++) {
+  const col = document.createElement('div');
+  col.className = 'bar-col';
+
+  const val = document.createElement('div');
+  val.className = 'bar-val';
+  val.textContent = '0%';
+  valEls.push(val);
+
+  const bar = document.createElement('div');
+  bar.className = 'bar';
+  bar.style.background = barColors[i];
+  bar.style.height = '0%';
+  bar.style.boxShadow = `0 0 12px rgba(255,107,157,0.5)`;
+  barEls.push(bar);
+
+  col.appendChild(val);
+  col.appendChild(bar);
+  graphBars.appendChild(col);
+}
+
+/* ── per-bar target heights & smooth lerp ── */
+const barTargets = barEls.map(() => rand(20, 85));
+const barCurrent = barEls.map(() => 0);
+let lastBarSwap = 0;
+
+function startGraphAnim() {
+  // assign new random targets every 600ms, bars lerp smoothly
+}
+
+/* ════════════════════════════════════════════
+   CHIP & PERCENT ANIMATION
+════════════════════════════════════════════ */
+const chips = [
+  { el: document.getElementById('chip1'), label: '❤️ ತ್ಯಾಗ' },
+  { el: document.getElementById('chip2'), label: '💛 ಸ್ನೇಹ' },
+  { el: document.getElementById('chip3'), label: '💜 ಕಾಳಜಿ' },
+  { el: document.getElementById('chip4'), label: '💚 ಬಲಿದಾನ' },
+];
+const chipValues = [0, 0, 0, 0];
+const chipTargets = [rand(80,100), rand(80,100), rand(80,100), rand(80,100)];
+let lastChipSwap = 0;
+
+const statusMsgs = [
+  'SCANNING HEART FREQUENCIES...',
+  'MEASURING CARE UNITS...',
+  'COMPUTING SACRIFICE INDEX...',
+  'ANALYZING LOVE PARTICLES...',
+  'CALIBRATING AFFECTION METER...',
+  'PROCESSING WARMTH DATA...',
+  'QUANTIFYING DEVOTION...',
+  'CALCULATING INFINITY...',
+];
+
+let statusIdx = 0, lastStatusSwap = 0;
+const pctEl = document.getElementById('pct');
+const statusEl = document.getElementById('statusTxt');
+const loadFill = document.getElementById('loadFill');
+
+let calcRunning = false, calcStart = 0, calcDuration = 0;
+let rafId;
+
+function calcLoop(now) {
+  if (!calcRunning) return;
+
+  const elapsed = now - calcStart;
+  const frac = Math.min(elapsed / calcDuration, 1);
+
+  /* ── progress bar: silky smooth ── */
+  const eased = frac < 1 ? 1 - Math.pow(1 - frac, 2.5) : 1; // ease-out
+  loadFill.style.width = (eased * 100).toFixed(2) + '%';
+
+  /* ── percentage counter: smooth with small noise ── */
+  const base = Math.floor(eased * 100);
+  const noise = frac < 0.97 ? randInt(0, 2) : 0;
+  pctEl.textContent = Math.min(base + noise, 100) + '%';
+
+  /* ── bars: lerp toward targets, swap targets every 700ms ── */
+  if (now - lastBarSwap > 700) {
+    barEls.forEach((_, i) => barTargets[i] = rand(15, 95));
+    lastBarSwap = now;
+  }
+  barEls.forEach((bar, i) => {
+    barCurrent[i] += (barTargets[i] - barCurrent[i]) * 0.08;
+    const h = Math.round(barCurrent[i]);
+    bar.style.height = h + '%';
+    valEls[i].textContent = h + '%';
+  });
+
+  /* ── chips: lerp toward targets, swap every 900ms ── */
+  if (now - lastChipSwap > 900) {
+    chips.forEach((_, i) => chipTargets[i] = rand(78, 100));
+    lastChipSwap = now;
+  }
+  chips.forEach((c, i) => {
+    chipValues[i] += (chipTargets[i] - chipValues[i]) * 0.06;
+    c.el.textContent = `${c.label}: ${Math.round(chipValues[i])}%`;
+  });
+
+  /* ── status messages: rotate every 900ms ── */
+  if (now - lastStatusSwap > 900) {
+    statusEl.textContent = statusMsgs[statusIdx % statusMsgs.length];
+    statusIdx++; lastStatusSwap = now;
+  }
+
+  if (frac < 1) rafId = requestAnimationFrame(calcLoop);
+}
+
+function startCalcAnim(startTime, duration) {
+  calcRunning = true; calcStart = startTime; calcDuration = duration;
+  lastBarSwap = performance.now();
+  lastChipSwap = performance.now();
+  lastStatusSwap = performance.now();
+  statusEl.textContent = statusMsgs[0];
+  rafId = requestAnimationFrame(calcLoop);
+
+}
+
+
+function stopCalcAnim() {
+  calcRunning = false;
+  cancelAnimationFrame(rafId);
+  pctEl.textContent = '∞';
+  statusEl.textContent = 'RESULT: IMMEASURABLE ❤️';
+  loadFill.style.transition = 'width 1s ease';
+  loadFill.style.width = '100%';
+  barEls.forEach(bar => {
+    bar.style.transition = 'height 1.8s cubic-bezier(.4,0,.2,1)';
+    bar.style.height = '0%';
+  });
+  chips.forEach((c, i) => {
+    c.el.textContent = c.label + ': ∞';
+  });
+}
+
+/* ════════════════════════════════════════════
+   SPARKLE EXPLOSION
+════════════════════════════════════════════ */
+const sCanvas = document.getElementById('sparkleCanvas');
+const sCtx = sCanvas.getContext('2d');
+let sparkles = [];
+
+function resizeS() { sCanvas.width = window.innerWidth; sCanvas.height = window.innerHeight; }
+resizeS(); window.addEventListener('resize', resizeS);
+
+class Sparkle {
+  constructor(x,y) {
+    this.x = x; this.y = y;
+    const angle = rand(0, Math.PI*2);
+    const spd = rand(2, 8);
+    this.vx = Math.cos(angle)*spd; this.vy = Math.sin(angle)*spd;
+    this.life = 1;
+    this.decay = rand(0.012, 0.025);
+    this.r = rand(2, 6);
+    this.col = pick(['#ffd700','#ff6b9d','#fff4e6','#ffb347','#e8456a','#ff4da6']);
+    this.vy -= rand(1,3); // slight upward bias
+  }
+  update() {
+    this.x += this.vx; this.y += this.vy;
+    this.vy += 0.1; // gravity
+    this.life -= this.decay;
+  }
+  draw() {
+    if (this.life <= 0) return;
+    sCtx.save();
+    sCtx.globalAlpha = this.life;
+    sCtx.beginPath();
+    // star shape
+    for (let i=0; i<5; i++) {
+      const a = (i*4*Math.PI/5) - Math.PI/2;
+      const b = ((i*4+2)*Math.PI/5) - Math.PI/2;
+      i===0 ? sCtx.moveTo(this.x+Math.cos(a)*this.r, this.y+Math.sin(a)*this.r)
+            : sCtx.lineTo(this.x+Math.cos(a)*this.r, this.y+Math.sin(a)*this.r);
+      sCtx.lineTo(this.x+Math.cos(b)*this.r*0.4, this.y+Math.sin(b)*this.r*0.4);
+    }
+    sCtx.closePath();
+    sCtx.fillStyle = this.col;
+    sCtx.shadowBlur = 15; sCtx.shadowColor = this.col;
+    sCtx.fill();
+    sCtx.restore();
+  }
+}
+
+let sparkleActive = false;
+function explodeSparkles() {
+  sparkleActive = true;
+  const cx = window.innerWidth/2, cy = window.innerHeight/2;
+  for (let i=0; i<250; i++) {
+    setTimeout(() => sparkles.push(new Sparkle(cx+rand(-80,80), cy+rand(-80,80))), rand(0,800));
+  }
+}
+
+function animSparkles() {
+  if (sparkleActive) {
+    sCtx.clearRect(0,0,sCanvas.width,sCanvas.height);
+    sparkles = sparkles.filter(s=>s.life>0);
+    sparkles.forEach(s=>{ s.update(); s.draw(); });
+  }
+  requestAnimationFrame(animSparkles);
+}
+animSparkles();
+
+/* ════════════════════════════════════════════
+   POPUP HEARTS
+════════════════════════════════════════════ */
+const popupHearts = document.getElementById('popupHearts');
+function addPopupHearts() {
+  for (let i=0; i<12; i++) {
+    const h = document.createElement('div');
+    h.className = 'ph';
+    h.textContent = pick(['❤️','💖','💗','✨','🌸','💕']);
+    h.style.cssText = `left:${rand(5,90)}%;animation-delay:${rand(0,2.5)}s;animation-duration:${rand(2,4)}s;font-size:${rand(0.8,1.5)}rem;`;
+    popupHearts.appendChild(h);
+  }
+}
+
+/* ════════════════════════════════════════════
+   FLOW CONTROLLER
+════════════════════════════════════════════ */
+document.getElementById('btn-start').addEventListener('click', () => {
+  // 1 — transition to calc screen
+  document.getElementById('screen-open').classList.add('hide');
+  document.getElementById('screen-calc').classList.add('show');
+
+  // 2 — start animations
+  const start = performance.now();
+  const DURATION = 8000;
+  startCalcAnim(start, DURATION);
+
+  // 3 — after 8s, stop & show popup
+  setTimeout(() => {
+    stopCalcAnim();
+
+    setTimeout(() => {
+      addPopupHearts();
+      explodeSparkles();
+      document.getElementById('popup-overlay').classList.add('show');
+    }, 1200);
+  }, DURATION);
+});
+</script>
+</body>
+</html>
